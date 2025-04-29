@@ -4,14 +4,11 @@ from typing import Optional, Literal, Union
 
 @dataclass
 class MatchConfigurator:
-    reference_file: str
-    match_file: Union[str, list]
-    n_in: float
-    suffix: list
+    file_list: Union[list,str]
     output_file: str  # out = < out - table >
     rel_dir: str
-    match_radius: float  # params = < match - params >
-    match_values: str = "RA DEC"
+    match_radius: float  # params = < match - params >  #TODO: This can also be a list, but in a weird format
+    match_values: Union[str, list] = "RA DEC"
 
     # ----------------------------
     # Multiple-choice
@@ -26,18 +23,28 @@ class MatchConfigurator:
     # ----------------------------
     # Fixed (for now)
     output_mode: str = "out"  # There are more options but not needed for now
+    # TODO: tuning: < tuning - params >
 
     # ----------------------------
     # Optional
-    # TODO: tuning: < tuning - params >
+    reference_file: Optional[str] = None
+    suffix_list: Optional[list] = None
     output_path: str = None
     iref: Optional[str] = None
     input_command: Optional[str] = None
     output_command: Optional[str] = None
-    ifmt: Optional[Literal["colfits", "csv", "ecsv", "fits", "tst", "votable"]] = None
+    ifmt: Optional[Literal["colfits", "csv", "ecsv", "fits", "tst", "votable"]] = None  #TODO: can also be a list of values
     ofmt: Optional[Literal["colfits", "csv", "ecsv", "fits", "tst", "votable"]] = None
 
     def __post_init__(self):
+
+        # infer n_in
+        self.n_in = len(self.file_list)
+
+        # infer suffix list if not provided
+        if not self.suffix_list:
+            self.suffix_list = [f"{i}" for i in range(1, self.n_in + 1)]
+
         # Infer input format
         if not self.ifmt and self.reference_file:
             self.ifmt = self._infer_fmt(self.reference_file)
@@ -57,6 +64,22 @@ class MatchConfigurator:
             raise ValueError(f"Unsupported file format '{fmt}'. Allowed formats are: {sorted(supported_formats)}")
 
         return fmt
+
+    def _generate_match_values_from_suffix(self):
+        """
+        Helper function that can generate a list of match columns based on the input string and the supplied suffix list.
+        Probably only for special cases.
+        :return: self.match_value_list
+        """
+
+        if self.n_in > 2 and type(self.match_values) == str:
+            print(self.match_values)
+
+            match_columns = self.match_values.split(" ")  # Handles any whitespace-separated values, no number limit
+            self.match_value_list = [
+                " ".join(f"{val}_{suffix}" for val in match_columns)
+                for suffix in self.suffix_list
+            ]
 
 
 
