@@ -1,7 +1,9 @@
 import os
 import stat
+import pandas as pd
 
-from CatMatcher.stilts_wrapper.match_configurator import MatchConfigurator
+from match_configurator import MatchConfigurator
+from shell_helper import execute_shell_script
 
 
 class StiltsMatcher(MatchConfigurator):
@@ -99,4 +101,15 @@ class StiltsMatcher(MatchConfigurator):
             os.chmod(self.output_path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
 
         else:
-            return command
+            print(command)
+
+    def perform_match(self, output_path: str = None, return_output: bool = True, log_file: bool = True):
+
+        if not output_path:
+            output_path = self.output_path
+        # run the stilts script
+        execute_shell_script(destination_path=output_path, return_output=return_output)
+
+        # log
+        # if log_file:
+        # TODO: Function for creating log with match-params and match statistic

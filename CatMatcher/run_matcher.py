@@ -12,8 +12,21 @@ matcher = StiltsMatcher(
 )
 
 
-matcher.build_simple_pairmatch()
+# matcher.build_simple_pairmatch()
 
-matcher._generate_match_values_from_suffix()
+Nmatcher = StiltsMatcher(
+    file_list=["file1.csv", "file2.csv", "file3.csv"],
+    output_file="matched.csv",
+    suffix_list=["a", "b", "c"],
+    rel_dir="../data/",
+    match_radius=0.5,
+   # n_in=2,
+   # output_path="../Data/scripts/match_commands.txt",
+)
 
-print(matcher.match_value_list)
+
+Nmatcher._generate_match_values_from_suffix()
+
+
+Nmatcher.build_N_match()
+
