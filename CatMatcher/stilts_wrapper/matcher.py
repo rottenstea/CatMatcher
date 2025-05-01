@@ -2,8 +2,8 @@ import os
 import stat
 import pandas as pd
 
-from match_configurator import MatchConfigurator
-from shell_helper import execute_shell_script
+from CatMatcher.stilts_wrapper.match_configurator import MatchConfigurator
+from CatMatcher.stilts_wrapper.shell_helper import execute_shell_script
 
 
 class StiltsMatcher(MatchConfigurator):
@@ -40,17 +40,17 @@ class StiltsMatcher(MatchConfigurator):
         if self.output_command is not None:
             command += (
                 f"\\\n"
-                f"\tfixcols={self.fixcols} ocmd={self.output_command} out={self.output_file} ofmt={self.ofmt} progress={self.progress}"
+                f"\tfixcols={self.fixcols} ocmd={self.output_command} out={os.path.join(self.output_path,self.output_file)} ofmt={self.ofmt} progress={self.progress}"
             )
         else:
             command += (
                 f"\\\n"
-                f"\tfixcols={self.fixcols} out={self.output_file} ofmt={self.ofmt} progress={self.progress}"
+                f"\tfixcols={self.fixcols} out={os.path.join(self.output_path,self.output_file)} ofmt={self.ofmt} progress={self.progress}"
             )
 
         # Write the command to a shellscript file
         if self.output_path is not None:
-            with open(self.output_path, 'w') as file:
+            with open(os.path.join(self.output_path, self.output_file), 'w') as file:
                 file.write(command)
                 print(f"Command written to {self.output_path}")
             os.chmod(self.output_path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
@@ -90,12 +90,12 @@ class StiltsMatcher(MatchConfigurator):
         # Add the rest of the fixed part of the command
         command += (
             f"\\\n"
-            f"\tfixcols={self.fixcols} out={self.output_file} ofmt={self.ofmt} progress={self.progress}"
+            f"\tfixcols={self.fixcols} out={os.path.join(self.output_path, self.output_file)} ofmt={self.ofmt} progress={self.progress}"
         )
 
         # Write the command to the file
         if self.output_path is not None:
-            with open(self.output_path, 'w') as file:
+            with open(os.path.join(self.output_path, self.output_file), 'w') as file:
                 file.write(command)
                 print(f"Command written to {self.output_path}")
             os.chmod(self.output_path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)

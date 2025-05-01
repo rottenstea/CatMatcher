@@ -1,3 +1,4 @@
+import numpy as np
 from dataclasses import dataclass
 from typing import Optional, Literal, Union
 
@@ -6,6 +7,7 @@ from typing import Optional, Literal, Union
 class MatchConfigurator:
     file_list: Union[list,str]
     output_file: str  # out = < out - table >
+    output_path: str
     rel_dir: str
     match_radius: float  # params = < match - params >  #TODO: This can also be a list, but in a weird format
     match_values: Union[str, list] = "RA DEC"
@@ -29,7 +31,6 @@ class MatchConfigurator:
     # Optional
     reference_file: Optional[str] = None
     suffix_list: Optional[list] = None
-    output_path: str = None
     iref: Optional[str] = None
     input_command: Optional[str] = None
     output_command: Optional[str] = None
@@ -41,9 +42,23 @@ class MatchConfigurator:
         # infer n_in
         self.n_in = len(self.file_list)
 
+        # check if file list is valid
+        if any(s == "" or (isinstance(s, float) and np.isnan(s)) for s in self.file_list):
+            raise ValueError("Empty strings or NAN entries encountered in input file list.")
+
+
+        # check if suffix list is valid
+        if self.suffix_list and any(s == "" or (isinstance(s, float) and np.isnan(s)) for s in self.suffix_list):
+            raise ValueError("Empty strings or NAN entries encountered in user-provided suffix list.")
+
+
+
         # infer suffix list if not provided
         if not self.suffix_list:
             self.suffix_list = [f"{i}" for i in range(1, self.n_in + 1)]
+        elif len(self.suffix_list) != self.n_in:
+            raise ValueError("Length of suffix-list does not match number of input files.")
+
 
         # Infer input format
         if not self.ifmt and self.reference_file:
@@ -60,6 +75,10 @@ class MatchConfigurator:
         supported_formats = ["colfits", "csv", "ecsv", "fits", "tst", "votable"]
 
         fmt = filename.split(".", maxsplit=2)[-1]
+
+        if fmt == filename:
+            raise ValueError("No extension found")
+
         if fmt not in supported_formats:
             raise ValueError(f"Unsupported file format '{fmt}'. Allowed formats are: {sorted(supported_formats)}")
 
