@@ -5,9 +5,9 @@ from typing import Optional, Literal, Union
 
 @dataclass
 class MatchConfigurator:
-    file_list: Union[list,str]
-    output_file: str  # out = < out - table >
-    output_path: str
+    file_list: Union[list, str]
+    output_file_name: str
+    command_output_path: str
     rel_dir: str
     match_radius: float  # params = < match - params >  #TODO: This can also be a list, but in a weird format
     match_values: Union[str, list] = "RA DEC"
@@ -29,12 +29,14 @@ class MatchConfigurator:
 
     # ----------------------------
     # Optional
+    output_file_path: Optional[str] = None
     reference_file: Optional[str] = None
     suffix_list: Optional[list] = None
     iref: Optional[str] = None
     input_command: Optional[str] = None
     output_command: Optional[str] = None
-    ifmt: Optional[Literal["colfits", "csv", "ecsv", "fits", "tst", "votable"]] = None  #TODO: can also be a list of values
+    ifmt: Optional[
+        Literal["colfits", "csv", "ecsv", "fits", "tst", "votable"]] = None  # TODO: can also be a list of values
     ofmt: Optional[Literal["colfits", "csv", "ecsv", "fits", "tst", "votable"]] = None
 
     def __post_init__(self):
@@ -42,16 +44,20 @@ class MatchConfigurator:
         # infer n_in
         self.n_in = len(self.file_list)
 
+        # convert str to list
+        if type(self.ifmt) == str:
+            self.ifmt = [self.ifmt]
+
+        if type(self.match_values)==str:
+            self.match_values= [self.match_values]
+
         # check if file list is valid
         if any(s == "" or (isinstance(s, float) and np.isnan(s)) for s in self.file_list):
             raise ValueError("Empty strings or NAN entries encountered in input file list.")
 
-
         # check if suffix list is valid
         if self.suffix_list and any(s == "" or (isinstance(s, float) and np.isnan(s)) for s in self.suffix_list):
             raise ValueError("Empty strings or NAN entries encountered in user-provided suffix list.")
-
-
 
         # infer suffix list if not provided
         if not self.suffix_list:
@@ -59,14 +65,15 @@ class MatchConfigurator:
         elif len(self.suffix_list) != self.n_in:
             raise ValueError("Length of suffix-list does not match number of input files.")
 
-
         # Infer input format
         if not self.ifmt and self.reference_file:
             self.ifmt = self._infer_fmt(self.reference_file)
+        elif not self.ifmt and not self.reference_file:
+            self.imft = [self._infer_fmt(i) for i in self.file_list]
 
         # Infer output format
-        if not self.ofmt and self.output_file:
-            self.ofmt = self._infer_fmt(self.output_file)
+        if not self.ofmt and self.output_file_name:
+            self.ofmt = self._infer_fmt(self.output_file_name)
 
     @staticmethod
     def _infer_fmt(filename):
@@ -75,6 +82,7 @@ class MatchConfigurator:
         supported_formats = ["colfits", "csv", "ecsv", "fits", "tst", "votable"]
 
         fmt = filename.split(".", maxsplit=2)[-1]
+        print(fmt, filename.split(".", maxsplit=2))
 
         if fmt == filename:
             raise ValueError("No extension found")
@@ -90,15 +98,10 @@ class MatchConfigurator:
         Probably only for special cases.
         :return: self.match_value_list
         """
-
         if self.n_in > 2 and type(self.match_values) == str:
-            print(self.match_values)
 
             match_columns = self.match_values.split(" ")  # Handles any whitespace-separated values, no number limit
             self.match_value_list = [
                 " ".join(f"{val}_{suffix}" for val in match_columns)
                 for suffix in self.suffix_list
             ]
-
-
-
