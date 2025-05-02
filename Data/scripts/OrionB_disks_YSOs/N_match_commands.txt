@@ -1,0 +1,6 @@
+stilts tmatchn multimode=group nin=3 matcher=sky params=1 \
+	in1=../../example_files/Disks_NGC2024.csv ifmt1=csv suffix1='_Disks' values1='RAJ2000 DEJ2000' \
+	in2=../../example_files/Megeath_YSOs.csv ifmt2=csv suffix2='_Megeath' values2='RAJ2000 DEJ2000' \
+	in3=../../example_files/Nemesis_YSOs_OrionB.csv ifmt3=csv suffix3='_Nemesis' values3='RA DE' \
+	join1=match 	join2=match join3=match \
+	fixcols=dups out=../../matches/matched.csv ofmt=csv progress=time
