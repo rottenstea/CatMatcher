@@ -24,6 +24,23 @@ locally, or accessed via query services like TAP or astroquery.
 - topcat/STILTS software needs to be installed and accessible via the terminal.
 - Classic python packages such as: numpy, astropy
 
+### ![Green Badge](https://img.shields.io/badge/NEW-green) Install instructions for STILTS
+
+1. Download and install the package:
+   - On MacOS with ``homebrew``: "brew install --cask topcat --no-quarantine" (topcat + STILTS installation)
+   - Via the ``stilts.jar`` file from the webpage: https://www.star.bris.ac.uk/~mbt/stilts/
+   
+2. **Important:** Within the CatMatcher package, STILTS is executed using the `zsh` native to MacOS environments.\
+To see if that works on your machine, try typing the command `stilts` into the `zsh` terminal\
+(within the virtual environment of CatMatcher, if it was not installed globally).
+It should open the software in the terminal and give a basic overview of its parameters.
+3. Depending on system architecture, the STILTS-path may need to be added to the `~\.zshrc` source file.\
+It will look similar to the example below,
+depending on where exactly the STILTS (or topcat) source directory is located:
+   - `export PATH="/Applications/TOPCAT.app/Contents/Resources/app:$PATH"`
+
+
+
 ## User Stories
 
 ### Main functionality
