@@ -7,13 +7,15 @@ from CatMatcher.stilts_wrapper.shell_helper import execute_shell_script
 
 
 class StiltsMatcher(MatchConfigurator):
+    """
+    This class is used build and execute the STILTS `tmatchN` function based on the provided matching configuration ( see `MatchConfigurator`).
 
-    def set_relative_paths(self):
-        """
-        Path setter for relative path variables for STILTS.
+    It inherits from `MatchConfigurator` and automates the generation of STILTS commands used to perform
+    multi-table astronomical catalog matching.
 
-        It is important to note, that the paths in the command-file need to be relative to the location of the script files.
-        Currently, this structure is hardcoded in the following way:
+    Note:
+        It is important to note that the paths in the command file must be relative to the location of the script files.
+        The folder structure is hardcoded as follows:
         ├── Data directory (where all the files are)
         │   └── CatMatcher_cwd
         │        ├── scripts
@@ -21,95 +23,32 @@ class StiltsMatcher(MatchConfigurator):
         │            └── stilts_execute.sh
         │        ├── matches
         │            └── match file(s)
-        :return: Relative paths for input and output files
-        """
-
-        relative_data_output_path = self._matched_path + self.output_file_name
-
-        if not self.data_dir:
-
-            f = self.file_list[1]
-
-            if self.normalized_path.endswith("/"):
-                data_dir = self.normalized_path.split("/")[-2]
-
-            else:
-                data_dir = self.normalized_path.split("/")[-2]
-
-            print(
-                f"Data directory name inferered as: {data_dir}. If this is not right, please set the variable manually when"
-                f"calling StiltsMatcher.")
-
-        else:
-            data_dir = self.data_dir
-
-        # TODO: Quick fix
-        relative_data_input_path = f"../../"
-        relative_data_output_path = "../matches/"
-
-        return relative_data_input_path, relative_data_output_path
-
-    '''
-    def build_simple_pairmatch(self, return_command:bool = False):
-        """
-
-
-        :return:
-        """
-
-
-        if self.reference_file is not None:
-            files = [self.reference_file, self.file_list]
-        else:
-            files = self.file_list
-        # First line of the command (static)
-        command = (
-            f"stilts tmatchn multimode={self.multimode} nin={self.n_in} matcher={self.matcher} params={self.match_radius} \\\n"
-        )
-
-        # Iteratively add in{x}, ifmt{x}, suffix{x}, values{x} for each file
-        for idx, file in enumerate(files, start=1):
-            command += (
-                f"\tin{idx}={os.path.join(rel_data_in, file)} ifmt{idx}={self.ifmt} "
-                f"suffix{idx}='_{self.suffix_list[idx - 1]}' values{idx}='{self.match_values}' \\\n"
-            )
-            print(idx, file)
-
-        # iteratively add the join statements
-        for idx, file in enumerate(files, start=1):
-            if idx == 1:
-                command += (
-                    f"\tjoin{idx}={self.join_mode} ")
-            else:
-                command += (
-                    f"join{idx}={self.join_mode} ")
-
-        # Final line of the command
-        if self.output_command is not None:
-            command += (
-                f"\\\n"
-                f"\tfixcols={self.fixcols} ocmd={self.output_command} out={os.path.join(rel_data_out, self.output_file)} ofmt={self.ofmt} progress={self.progress}"
-            )
-        else:
-            command += (
-                f"\\\n"
-                f"\tfixcols={self.fixcols} out={os.path.join(rel_data_out, self.output_file)} ofmt={self.ofmt} progress={self.progress}"
-            )
-
-        # Write the command to a shellscript file
-
-            with open(os.path.join(rel_data_out, self.output_file), 'w') as file:
-                file.write(command)
-                print(f"Command written to {self.output_path}")
-            os.chmod(self.output_path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
-        else:
-            print(command)
-    '''
+   """
 
     def build_N_match(self, print_command: bool = False):
+        """
+        Builds the full STILTS tmatchn command for N-way matching of input catalogs and writes it to a shell-executable file.
 
-        rel_data_in, rel_data_out = self.set_relative_paths()
-        print(rel_data_in)
+        This method uses the match attributes described in the `MatchConfigurator` dataclass, like input files, formats,
+         suffixes, match values, to construct a command file for the STILTS software, which can be run via the terminal.
+         It handles all combinations of match column and format configurations that the author could think of until now :P
+         (e.g., one for all files or distinct per file).
+
+        The command is written to `command_file_name` inside the `scripts/` directory and made executable. Note that,
+        depending on the individual user system settings, the action of making the file executable might require root privileges.
+
+        Args:
+            print_command (bool): If True, prints the final command to stdout for user inspection.
+
+        Returns:
+            No direct output, but:
+            - Writes the constructed command string to a `.txt` file (and prints it if required).
+            - Makes the command file executable via `chmod`.
+        """
+
+        # define relative paths
+        rel_data_in = f"../../"
+        rel_data_out = "../matches/"
 
         # Start the command
         command = (
@@ -126,7 +65,7 @@ class StiltsMatcher(MatchConfigurator):
                 for idx, file in enumerate(self.file_list, start=1):
                     suffix = self.suffix_list[idx - 1]
                     command += (
-                        f"\tin{idx}={rel_data_in +file} ifmt{idx}={self.ifmt[idx - 1]} "
+                        f"\tin{idx}={rel_data_in + file} ifmt{idx}={self.ifmt[idx - 1]} "
                         f"suffix{idx}='_{suffix}' "
                         f"values{idx}='{self.match_values[idx - 1]}' \\\n"
                     )
@@ -137,7 +76,7 @@ class StiltsMatcher(MatchConfigurator):
                 for idx, file in enumerate(self.file_list, start=1):
                     suffix = self.suffix_list[idx - 1]
                     command += (
-                        f"\tin{idx}={rel_data_in+ file} ifmt{idx}={self.ifmt[idx - 1]} "
+                        f"\tin{idx}={rel_data_in + file} ifmt{idx}={self.ifmt[idx - 1]} "
                         f"suffix{idx}='_{suffix}' "
                         f"values{idx}='{self.match_values[0]}' \\\n"
                     )
@@ -210,11 +149,10 @@ class StiltsMatcher(MatchConfigurator):
                 command += (
                     f"join{idx}={self.join_mode} ")
 
-        # TODO: Careful - quick fix here
         # Add the rest of the fixed part of the command
         command += (
             f"\\\n"
-            f"\tfixcols={self.fixcols} out={'../matches/' + self.output_file_name} ofmt={self.ofmt} progress={self.progress}"
+            f"\tfixcols={self.fixcols} out={rel_data_out + self.output_file_name} ofmt={self.ofmt} progress={self.progress}"
         )
 
         # Write the command to the file
@@ -232,6 +170,22 @@ class StiltsMatcher(MatchConfigurator):
             print(command)
 
     def perform_Nmatch(self, return_output: bool = True, log_file: bool = True):
+        """
+         Executes the STILTS match command constructed by `build_N_match`.
+
+         This method calls `build_N_match()` to prepare the matching script, then executes it using a shell call.
+         Optionally returns output logs and is intended to support future logging of match parameters and statistics.
+
+         Args:
+             return_output (bool): If True, prints shell execution output and error to stdout.
+             log_file (bool): Placeholder for future implementation of a match log generation function.
+
+         Returns:
+            No direct output, but:
+             - Writes the constructed command string to a `.txt` file (and prints it if required).
+             - Executes a shell script to perform the match.
+             - (Planned) Generates a log file with match parameters and statistics.
+         """
 
         # create the command
         self.build_N_match()
