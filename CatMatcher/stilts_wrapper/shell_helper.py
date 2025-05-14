@@ -37,7 +37,7 @@ done
 
 
 def execute_shell_script(destination_path: str, name: str = "stilts_execute.sh", content: str = None, shell="zsh",
-                          return_output: bool = False):
+                         return_output: bool = False):
     spawn_shell_script(destination_path, name, content)
     result = subprocess.run([shell, name], cwd=destination_path, capture_output=True, text=True)
 
@@ -45,6 +45,7 @@ def execute_shell_script(destination_path: str, name: str = "stilts_execute.sh",
         print('Output:', result.stdout)
         print('Error:', result.stderr)
         print('Return code:', result.returncode)
+
 
 '''
 if __name__ == "__main__":

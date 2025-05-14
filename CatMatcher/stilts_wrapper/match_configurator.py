@@ -1,14 +1,16 @@
 import numpy as np
+from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional, Literal, Union
 
+from CatMatcher.utils import helpers
 
 @dataclass
 class MatchConfigurator:
     file_list: Union[list, str]
-    output_file_name: str
-    command_output_path: str
-    rel_dir: str
+    file_path: str
+   # command_output_path: str
+    #rel_dir: str
     match_radius: float  # params = < match - params >  #TODO: This can also be a list, but in a weird format
     match_values: Union[str, list] = "RA DEC"
 
@@ -29,7 +31,10 @@ class MatchConfigurator:
 
     # ----------------------------
     # Optional
-    output_file_path: Optional[str] = None
+    output_file_name: Optional[str] = "matched.csv"
+    command_file_name: Optional[str] = None
+    data_dir: Optional[str] = None
+    cwd: Optional[str] = None
     reference_file: Optional[str] = None
     suffix_list: Optional[list] = None
     iref: Optional[str] = None
@@ -69,11 +74,20 @@ class MatchConfigurator:
         if not self.ifmt and self.reference_file:
             self.ifmt = self._infer_fmt(self.reference_file)
         elif not self.ifmt and not self.reference_file:
-            self.imft = [self._infer_fmt(i) for i in self.file_list]
+            self.ifmt = [self._infer_fmt(i) for i in self.file_list]
 
         # Infer output format
         if not self.ofmt and self.output_file_name:
             self.ofmt = self._infer_fmt(self.output_file_name)
+
+        # normalize path (to work across systems)
+        self.normalized_path = Path(self.file_path).as_posix()
+
+        # Setup directory hierarchy for matching
+        self.cwd_path, self._script_path, self._matched_path = helpers.setup_stilts_directory(file_path=self.normalized_path, cwd_name=self.cwd, return_paths=True)
+
+
+
 
     @staticmethod
     def _infer_fmt(filename):
