@@ -5,7 +5,7 @@ from stilts_wrapper.matcher import StiltsMatcher
 number of files  and matches them based on the column names and matching radius provided by the user."""
 
 # 1. Indicate file location
-file_path = '../Data/example_files/'
+file_path = 'Data/example_files/'
 files = sorted([f for f in os.listdir(file_path) if "csv" in f])  # grab desired files at the file_path
 
 # Optional:

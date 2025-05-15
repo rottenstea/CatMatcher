@@ -85,8 +85,7 @@ class MatchConfigurator:
     iref: Optional[str] = None
     input_command: Optional[str] = None
     output_command: Optional[str] = None
-    ifmt: Optional[list,
-    Literal["colfits", "csv", "ecsv", "fits", "tst", "votable"]] = None
+    ifmt: Optional[Literal["colfits", "csv", "ecsv", "fits", "tst", "votable"]] = None
     ofmt: Optional[Literal["colfits", "csv", "ecsv", "fits", "tst", "votable"]] = None
 
     def __post_init__(self):

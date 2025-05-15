@@ -1,9 +1,8 @@
 import os
 import stat
-import pandas as pd
 
-from CatMatcher.stilts_wrapper.match_configurator import MatchConfigurator
-from CatMatcher.stilts_wrapper.shell_helper import execute_shell_script
+from stilts_wrapper.match_configurator import MatchConfigurator
+from stilts_wrapper.shell_helper import execute_shell_script
 
 
 class StiltsMatcher(MatchConfigurator):
