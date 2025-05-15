@@ -1,9 +1,3 @@
-matplotlib==3.9.4
-matplotlib-inline==0.1.7
-numpy==1.24.4
-pandas==2.2.3
-PyYAML==6.0.2
-scipy==1.13.1
 markdown-it-py            3.0.0              pyhd8ed1ab_1    conda-forge
 markupsafe                3.0.2           py312h998013c_1    conda-forge
 matplotlib                3.10.1          py312h1f38498_0    conda-forge
@@ -14,36 +8,13 @@ nbconvert-core            7.16.6             pyh29332c3_0    conda-forge
 nbformat                  5.10.4             pyhd8ed1ab_1    conda-forge
 nbsphinx                  0.9.7                    pypi_0    pypi
 ncurses                   6.5                  h5e97a16_3    conda-forge
-nest-asyncio              1.6.0              pyhd8ed1ab_1    conda-forge
-networkx                  3.4.2              pyh267e887_2    conda-forge
-nlohmann_json             3.12.0               ha1acc90_0    conda-forge
-nomkl                     1.0                  h5ca1d4c_0    conda-forge
 notebook                  7.4.1              pyhd8ed1ab_0    conda-forge
 notebook-shim             0.2.4              pyhd8ed1ab_1    conda-forge
 numpy                     2.2.5           py312h7c1f314_0    conda-forge
-packaging                 25.0               pyh29332c3_1    conda-forge
 pandas                    2.2.3           py312hcb1e3ce_3    conda-forge
 pandocfilters             1.5.0              pyhd8ed1ab_0    conda-forge
 pip                       25.1               pyh8b19718_0    conda-forge
-pyaml                     25.1.0                   pypi_0    pypi
-pyparsing                 3.2.3              pyhd8ed1ab_1    conda-forge
-pysocks                   1.7.1              pyha55dd90_7    conda-forge
-pytensor                  2.30.3          py312h1d0a035_0    conda-forge
-pytensor-base             2.30.3          np20py312h7ca56ae_0    conda-forge
-python                    3.12.10         hc22306f_0_cpython    conda-forge
-python-dateutil           2.9.0.post0        pyhff2d567_1    conda-forge
-python-fastjsonschema     2.21.1             pyhd8ed1ab_0    conda-forge
-python-graphviz           0.20.3             pyh91182bf_2    conda-forge
-python-json-logger        2.0.7              pyhd8ed1ab_0    conda-forge
-python-tzdata             2025.2             pyhd8ed1ab_0    conda-forge
-python-utils              3.9.1              pyhff2d567_1    conda-forge
-python_abi                3.12                    7_cp312    conda-forge
-pytorch                   2.6.0           cpu_generic_py312_heeb16a7_2    conda-forge
-pytz                      2025.2             pyhd8ed1ab_0    conda-forge
-pyyaml                    6.0.2           py312h998013c_2    conda-forge
 scipy                     1.15.2          py312h99a188d_0    conda-forge
-seaborn                   0.13.2               hd8ed1ab_3    conda-forge
-seaborn-base              0.13.2             pyhd8ed1ab_3    conda-forge
 setuptools                80.1.0             pyhff2d567_0    conda-forge
 sphinx                    8.1.3                    pypi_0    pypi
 sphinx-autobuild          2024.10.3                pypi_0    pypi
@@ -59,11 +30,4 @@ types-python-dateutil     2.9.0.20241206     pyhd8ed1ab_0    conda-forge
 typing-extensions         4.13.2               h0e9735f_0    conda-forge
 typing_extensions         4.13.2             pyh29332c3_0    conda-forge
 typing_utils              0.1.0              pyhd8ed1ab_1    conda-forge
-wcwidth                   0.2.13             pyhd8ed1ab_1    conda-forge
-webcolors                 24.11.1            pyhd8ed1ab_0    conda-forge
-webencodings              0.5.1              pyhd8ed1ab_3    conda-forge
-websocket-client          1.8.0              pyhd8ed1ab_1    conda-forge
-websockets                15.0.1                   pypi_0    pypi
-wheel                     0.45.1             pyhd8ed1ab_1    conda-forge
-yaml                      0.2.5                h3422bc3_2    conda-forge
 
