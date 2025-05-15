@@ -1,5 +1,5 @@
 
-<img src="Logo_small.jpeg" alt="Logo" width="150" align="" style="margin-bottom: -30px;" />
+<img src="https://github.com/rottenstea/CatMatcher/blob/main/Logo_small.jpeg" alt="Logo" width="150" align="" style="margin-bottom: -30px;" />
 
 # CatMatcher 
 A Python wrapper for the advanced table crossmatching features of STILTS, offering more flexibility than the Topcat frontend 

@@ -1,7 +1,7 @@
 import re
 import pytest
 import numpy as np
-from stilts_wrapper import MatchConfigurator  # Replace with actual import
+from src.CatMatcher import MatchConfigurator  # Replace with actual import
 
 
 def generate_dummy_class():

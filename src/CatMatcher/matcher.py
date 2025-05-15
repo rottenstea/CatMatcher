@@ -1,8 +1,8 @@
 import os
 import stat
 
-from stilts_wrapper.match_configurator import MatchConfigurator
-from stilts_wrapper.shell_helper import execute_shell_script
+from CatMatcher.match_configurator import MatchConfigurator
+from CatMatcher.shell_helper import execute_shell_script
 
 
 class StiltsMatcher(MatchConfigurator):

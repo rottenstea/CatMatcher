@@ -1,5 +1,5 @@
 import os
-from stilts_wrapper.matcher import StiltsMatcher
+from CatMatcher.matcher import StiltsMatcher
 
 """ This script runs the minimum viable product of the CatMatcher routine, as of 14-05-2025. It takes in a
 number of files  and matches them based on the column names and matching radius provided by the user."""
