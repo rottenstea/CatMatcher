@@ -5,6 +5,9 @@
 A Python wrapper for the advanced table crossmatching features of STILTS, offering more flexibility than the Topcat frontend 
 and simplifying the process of using STILTS via the command line without the need for complex shell scripts. 
 
+### ![Green Badge](https://img.shields.io/badge/NEW-green) User Documentation
+The code documentation, including a short user tutorial, is now available at ReadtheDocs: https://catmatcher.readthedocs.io/en/latest/
+
 ## Requirements
 - The package should provide a fast and intuitive way for python users to access the full functionality
 of the **S**tarlink **T**ables **I**nfrastructure **L**ibrary **T**ool **S**et, short STILTS, cross-matching functionalities.
