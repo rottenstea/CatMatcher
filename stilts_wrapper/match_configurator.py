@@ -17,17 +17,13 @@ class MatchConfigurator:
         default values.
 
         Attributes:
-            file_list (Union[list, str]): List of input file names. Alternatively, a single file as a string, but note
-            that this can only be used when a separate reference file is provided.
+            file_list (Union[list, str]): List of input file names. Alternatively, a single file as a string, but note that this can only be used when a separate reference file is provided. :no-index:
             file_path (str): Path at which the input files are located.
             match_radius (float): Matching radius for positional matching, in arcseconds.
-            match_values (Union[str, list], optional): Columns used for matching, default "RA DEC". If the match columns
-            are not identical across all input columns, a list with all the column names, in the same order as the file_list,
-            needs to be provided.
+            match_values (Union[str, list], optional): Columns used for matching, default "RA DEC". If the match columns are not identical across all input columns, a list with all the column names, in the same order as the file_list, needs to be provided.
 
             output_mode (str, fixed): Output mode for the matcher tool. Currently frozen to one specific mode.
-            output_file_name (str, optional): Name of the output file to write matched results, including the desired
-            file type. See imft or ofmt for supported filetypes. (Default: "matched.csv)
+            output_file_name (str, optional): Name of the output file to write matched results, including the desired file type. See imft or ofmt for supported filetypes. (Default: "matched.csv)
             command_file_name (str, optional): Name of the command file used to run matching, without suffix. (Default: Nmatch_commands)
             cwd (str, optional): Name of the directory where matching outputs and scripts will be saved.
 
@@ -36,21 +32,15 @@ class MatchConfigurator:
             join_mode (Literal, ["default", "match", "nomatch", "always"]): How results are joined across matched/unmatched catalogs. (Default: "match")
             runner (Literal, ["parallel", "parallel-all", "sequential", "classic", "partest"]): Execution mode for the STILTS matcher. (Default: "parallel")
             progress (Literal, ["none", "log", "time", "profile"]): Logging/progress output during matching. (Default: "time")
-            fixcols (Literal, ["none", "dups", "all"]): Determines how input columns are renamed in the output table, according to the suffix_list parameters.
-            If "none", no columns are renamed, if "dups" only columns which would otherwise have duplicate names in the output
-            are renamed, if "all" every column will be renamed.
+            fixcols (Literal, ["none", "dups", "all"]): Determines how input columns are renamed in the output table, according to the suffix_list parameters. If "none", no columns are renamed, if "dups" only columns which would otherwise have duplicate names in the output are renamed, if "all" every column will be renamed.
 
             reference_file (Optional[str], optional): Optional reference file for input format inference. If provided, a single string input for file_list is acceptable.
-            suffix_list (Optional[list], optional): Optional list of suffixes for identifying files. If None, suffixes will be numeric indices _1, _2,... according to the order of
-            the file_list.
-            iref (Optional[int], optional): If multimode="pairs" this parameter gives the index of the table in the file_list,
-             which serves as the reference table, i.e. must be matched by other tables.
+            suffix_list (Optional[list], optional): Optional list of suffixes for identifying files. If None, suffixes will be numeric indices _1, _2,... according to the order of the file_list.
+            iref (Optional[int], optional): If multimode="pairs" this parameter gives the index of the table in the file_list, which serves as the reference table, i.e. must be matched by other tables.
             input_command (Optional[str], optional): Custom command string indicating actions to be performed on columns of all input tables.
             output_command (Optional[str], optional): Custom command string indicating actions to be performed on columns of the output table.
-            ifmt (Optional[list or Literal], ["colfits", "csv", "ecsv", "fits", "tst", "votable"]): Input format(s) for catalog files. Accepted formats are:
-            ["colfits", "csv", "ecsv", "fits", "tst", "votable"]. If not provided, they will be inferred from the file_list.
-            ofmt (Optional[Literal], ["colfits", "csv", "ecsv", "fits", "tst", "votable"]): Output format for result file. Accepted formats are:
-            ["colfits", "csv", "ecsv", "fits", "tst", "votable"]. If not provided, it will be inferred from the output_file_name.
+            ifmt (Optional[list or Literal], ["colfits", "csv", "ecsv", "fits", "tst", "votable"]): Input format(s) for catalog files. Accepted formats are: ["colfits", "csv", "ecsv", "fits", "tst", "votable"]. If not provided, they will be inferred from the file_list.
+            ofmt (Optional[Literal], ["colfits", "csv", "ecsv", "fits", "tst", "votable"]): Output format for result file. Accepted formats are: ["colfits", "csv", "ecsv", "fits", "tst", "votable"]. If not provided, it will be inferred from the output_file_name.
         """
 
     # ---------------------------

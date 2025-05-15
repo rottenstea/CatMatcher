@@ -12,26 +12,25 @@ class StiltsMatcher(MatchConfigurator):
     It inherits from `MatchConfigurator` and automates the generation of STILTS commands used to perform
     multi-table astronomical catalog matching.
 
-    Note:
+    .. note::
+
         It is important to note that the paths in the command file must be relative to the location of the script files.
-        The folder structure is hardcoded as follows:
-        ├── Data directory (where all the files are)
-        │   └── CatMatcher_cwd
-        │        ├── scripts
-        │            ├── match_commands.txt
-        │            └── stilts_execute.sh
-        │        ├── matches
-        │            └── match file(s)
+        The folder structure is hardcoded as follows::
+
+            ├── Data directory (where all the files are)
+            │   └── CatMatcher_cwd
+            │        ├── scripts
+            │            ├── match_commands.txt
+            │            └── stilts_execute.sh
+            │        ├── matches
+            │            └── match file(s)
    """
 
     def build_N_match(self, print_command: bool = False):
         """
         Builds the full STILTS tmatchn command for N-way matching of input catalogs and writes it to a shell-executable file.
 
-        This method uses the match attributes described in the `MatchConfigurator` dataclass, like input files, formats,
-         suffixes, match values, to construct a command file for the STILTS software, which can be run via the terminal.
-         It handles all combinations of match column and format configurations that the author could think of until now :P
-         (e.g., one for all files or distinct per file).
+        This method uses the match attributes described in the `MatchConfigurator` dataclass, like input files, formats, suffixes, match values, to construct a command file for the STILTS software, which can be run via the terminal. It handles all combinations of match column and format configurations that the author could think of until now :P (e.g., one for all files or distinct per file).
 
         The command is written to `command_file_name` inside the `scripts/` directory and made executable. Note that,
         depending on the individual user system settings, the action of making the file executable might require root privileges.
@@ -41,6 +40,7 @@ class StiltsMatcher(MatchConfigurator):
 
         Returns:
             No direct output, but:
+
             - Writes the constructed command string to a `.txt` file (and prints it if required).
             - Makes the command file executable via `chmod`.
         """
