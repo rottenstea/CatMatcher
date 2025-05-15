@@ -1,8 +1,6 @@
 markdown-it-py==3.0.0
 markupsafe==3.0.2
 matplotlib==3.10.1
-matplotlib-base==3.10.1
-matplotlib-inline==0.1.7
 nbclient==0.10.2
 nbconvert-core==7.16.6
 nbformat==5.10.4
