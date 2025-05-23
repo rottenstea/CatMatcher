@@ -10,5 +10,5 @@ sphinx:
 
 python:
   install:
-    - path: .  # ✅ install your package using pyproject.toml
+    - path: .
     - requirements: requirements.txt
