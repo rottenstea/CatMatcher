@@ -1,0 +1,19 @@
+[project]
+name = "CatMatcher"
+version = "0.1.1"
+authors = [
+  { name="A. Rottensteiner", email="alena.rottensteiner@gmail.com" },
+]
+description = "A Python wrapper for the advanced crossmatching features of STILTS, offering more flexibility than the Topcat frontend and simplifying the process of using STILTS via the command line without the need for complex shell scripts."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/rottenstea/CatMatcher"
+Issues = "https://github.com/rottenstea/CatMatcher/issues"
